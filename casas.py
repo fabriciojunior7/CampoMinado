@@ -9,7 +9,6 @@ vermelho = (255, 0, 0)
 cinza = (50, 50, 50)
 cinzaClaro = (160, 160, 160)
 
-
 class Casa(object):
     def __init__(self, x, y, bomba):
         self.x = x
@@ -19,6 +18,7 @@ class Casa(object):
         self.numero = 0
         self.bomba = bomba
         self.click = False
+        self.clicado = False
         self.bandeira = False
         self.corpo = pygame.Rect(self.x , self.y, self.largura, self.altura)
 
@@ -29,4 +29,10 @@ class Casa(object):
         pygame.draw.rect(tela, cinzaClaro, self.corpo)
 
     def pintar_click(self, tela):
+        pygame.draw.rect(tela, branco, self.corpo)
+
+    def pintar_bandeira(self, tela):
+        pygame.draw.rect(tela, vermelho, self.corpo)
+
+    def pintar_clicado(self, tela):
         pygame.draw.rect(tela, branco, self.corpo)

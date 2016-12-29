@@ -47,15 +47,22 @@ def main():
                 pygame.quit()
                 sys.exit()
             if(event.type == pygame.MOUSEBUTTONDOWN):
-                if(pygame.mouse.get_pressed()[0] == True):
+                if(pygame.mouse.get_pressed()[0] == True and e.bandeira == False):
                     for e in locais:
                         if(e.corpo.collidepoint(mouseX, mouseY)):
                             e.click = True
                 if(pygame.mouse.get_pressed()[2] == True):
-                    e.bandeira = True
+                    for e in locais:
+                        if(e.corpo.collidepoint(mouseX, mouseY) and e.clicado == False):
+                            if(e.bandeira == True):
+                                e.bandeira = False
+                            elif(e.bandeira == False):
+                                e.bandeira = True
             if(event.type == pygame.MOUSEBUTTONUP):
                 for e in locais:
                     e.click = False
+                    if(e.corpo.collidepoint(mouseX, mouseY)):
+                        e.clicado = True
 
         #Rodar
         relogio.tick(frames)
@@ -65,10 +72,15 @@ def main():
         sup1.fill(verde)
         #Superficie 1
         for e in locais:
-            if(e.corpo.collidepoint(mouseX, mouseY) and e.click == False):
+            if(e.corpo.collidepoint(mouseX, mouseY) and e.click == False and e.bandeira == False and e.clicado == False):
                 e.pintar_mouse(sup1)
-            elif (not e.corpo.collidepoint(mouseX, mouseY) and e.click == False):
+            elif(not e.corpo.collidepoint(mouseX, mouseY) and e.click == False and e.bandeira == False and e.clicado == False):
                 e.pintar(sup1)
+            elif(e.bandeira == True):
+                e.pintar_bandeira(sup1)
+            elif(e.clicado == True):
+                e.pintar_clicado(sup1)
+
             else:
                 e.pintar_click(sup1)
 
