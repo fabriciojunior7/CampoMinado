@@ -15,12 +15,12 @@ def main():
 
     for num in range(quadrado):
         if(num % 10 != 0):
-            novaCasa = casas.Casa(xx, yy)
+            novaCasa = casas.Casa(xx, yy, False)
             xx += 35
         else:
             yy += 35
             xx = 45
-            novaCasa = casas.Casa(xx, yy)
+            novaCasa = casas.Casa(xx, yy, False)
 
         locais.append(novaCasa)
 
@@ -32,17 +32,30 @@ def main():
     tela = pygame.display.set_mode((largura, altura))
     pygame.display.set_caption("Campo Minado!")
     relogio = pygame.time.Clock()
-    frames = 30
+    frames = 100
 
     #Superficies
     sup1 = pygame.Surface((400, altura-10))
     sup2 = pygame.Surface((185, altura-10))
 
     while(True):
+        mouseX = pygame.mouse.get_pos()[0]
+        mouseY = pygame.mouse.get_pos()[1]
+
         for event in pygame.event.get():
             if(event.type == pygame.QUIT):
                 pygame.quit()
                 sys.exit()
+            if(event.type == pygame.MOUSEBUTTONDOWN):
+                if(pygame.mouse.get_pressed()[0] == True):
+                    for e in locais:
+                        if(e.corpo.collidepoint(mouseX, mouseY)):
+                            e.click = True
+                if(pygame.mouse.get_pressed()[2] == True):
+                    e.bandeira = True
+            if(event.type == pygame.MOUSEBUTTONUP):
+                for e in locais:
+                    e.click = False
 
         #Rodar
         relogio.tick(frames)
@@ -52,7 +65,13 @@ def main():
         sup1.fill(verde)
         #Superficie 1
         for e in locais:
-            e.pintar(sup1)
+            if(e.corpo.collidepoint(mouseX, mouseY) and e.click == False):
+                e.pintar_mouse(sup1)
+            elif (not e.corpo.collidepoint(mouseX, mouseY) and e.click == False):
+                e.pintar(sup1)
+            else:
+                e.pintar_click(sup1)
+
         #Superficie 2
         sup2.fill(azul)
         tela.blit(sup1 , (5, 5))
