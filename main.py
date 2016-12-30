@@ -46,11 +46,15 @@ def main():
             if(event.type == pygame.QUIT):
                 pygame.quit()
                 sys.exit()
+
+            #Mouse Pressionado
             if(event.type == pygame.MOUSEBUTTONDOWN):
-                if(pygame.mouse.get_pressed()[0] == True and e.bandeira == False):
+                #Botao Esquerda
+                if(pygame.mouse.get_pressed()[0] == True):
                     for e in locais:
-                        if(e.corpo.collidepoint(mouseX, mouseY)):
-                            e.click = True
+                        if(e.corpo.collidepoint(mouseX, mouseY) and e.bandeira == False):
+                            e.clicado = True
+                #Botao Direita
                 if(pygame.mouse.get_pressed()[2] == True):
                     for e in locais:
                         if(e.corpo.collidepoint(mouseX, mouseY) and e.clicado == False):
@@ -58,11 +62,12 @@ def main():
                                 e.bandeira = False
                             elif(e.bandeira == False):
                                 e.bandeira = True
-            if(event.type == pygame.MOUSEBUTTONUP):
-                for e in locais:
-                    e.click = False
-                    if(e.corpo.collidepoint(mouseX, mouseY)):
-                        e.clicado = True
+
+            #Teclado
+            if(event.type == pygame.KEYDOWN):
+                if(event.key == pygame.K_SPACE):
+                    main()
+
 
         #Rodar
         relogio.tick(frames)
@@ -72,9 +77,9 @@ def main():
         sup1.fill(verde)
         #Superficie 1
         for e in locais:
-            if(e.corpo.collidepoint(mouseX, mouseY) and e.click == False and e.bandeira == False and e.clicado == False):
+            if(e.corpo.collidepoint(mouseX, mouseY) and e.bandeira == False and e.clicado == False):
                 e.pintar_mouse(sup1)
-            elif(not e.corpo.collidepoint(mouseX, mouseY) and e.click == False and e.bandeira == False and e.clicado == False):
+            elif(not e.corpo.collidepoint(mouseX, mouseY) and e.bandeira == False and e.clicado == False):
                 e.pintar(sup1)
             elif(e.bandeira == True):
                 e.pintar_bandeira(sup1)

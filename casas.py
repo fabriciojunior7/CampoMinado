@@ -17,7 +17,6 @@ class Casa(object):
         self.altura = 30
         self.numero = 0
         self.bomba = bomba
-        self.click = False
         self.clicado = False
         self.bandeira = False
         self.corpo = pygame.Rect(self.x , self.y, self.largura, self.altura)
@@ -27,9 +26,6 @@ class Casa(object):
 
     def pintar_mouse(self, tela):
         pygame.draw.rect(tela, cinzaClaro, self.corpo)
-
-    def pintar_click(self, tela):
-        pygame.draw.rect(tela, branco, self.corpo)
 
     def pintar_bandeira(self, tela):
         pygame.draw.rect(tela, vermelho, self.corpo)
